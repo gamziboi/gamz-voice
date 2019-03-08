@@ -1,6 +1,6 @@
 # gamz-voice
 
-**[ REQUIREMENTS ] **
+**[ REQUIREMENTS ]**
 - None, works for all frameworks
 
 **[ What is this ]**
