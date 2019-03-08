@@ -47,7 +47,7 @@ Citizen.CreateThread(function()
             elseif voice.current == 2 then
                 voiceS = voice.whisper
             end
-            Marker(1, coords.x, coords.y, coords.z, voiceS * 1.5)
+            Marker(1, coords.x, coords.y, coords.z, voiceS * 2.0)
         end
     end
 end)
