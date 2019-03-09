@@ -16,3 +16,4 @@
 **[ CREDITS ]**
 
 Original Script [esx_voice](https://github.com/ESX-Org/esx_voice)
+[FamilyRP-Styled-Voice](https://forum.fivem.net/t/release-familyrp-styled-voice-chat/67434) By kodak
