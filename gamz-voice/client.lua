@@ -10,11 +10,13 @@ local Keys = {
 	["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
 }
 
-
+-- colors
 local r,g,b,a = 166,166,255,255 -- rgba color
 
-local voice = {default = 5.0, shout = 12.0, whisper = 1, current = 0}
+-- ranges
+local voice = {default = 5.0, shout = 12.0, whisper = 1.0, current = 0}
 
+--- on server startup
 AddEventHandler('onClientMapStart', function()
 	if voice.current == 0 then
 		NetworkSetTalkerProximity(voice.default)
@@ -25,6 +27,7 @@ AddEventHandler('onClientMapStart', function()
 	end
 end)
 
+-- main part.
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
@@ -47,11 +50,43 @@ Citizen.CreateThread(function()
             elseif voice.current == 2 then
                 voiceS = voice.whisper
             end
-            Marker(1, coords.x, coords.y, coords.z, voiceS * 1.5)
+            Marker(1, coords.x, coords.y, coords.z, voiceS * 2.0)
         end
     end
 end)
 
+-- distance to see the circle under people when talking
+local playerNamesDist = 10
+
+-- circle under people when talking
+Citizen.CreateThread(function()
+    while true do
+        if Config.EnableMarkerWhenTalking then
+            for id = 0, 31 do
+                if  ((NetworkIsPlayerActive( id )) and GetPlayerPed( id ) ~= GetPlayerPed( -1 )) then
+                    ped = GetPlayerPed( id )
+    
+                    x1, y1, z1 = table.unpack( GetEntityCoords( GetPlayerPed( -1 ), true ) )
+                    x2, y2, z2 = table.unpack( GetEntityCoords( GetPlayerPed( id ), true ) )
+                    distance = math.floor(GetDistanceBetweenCoords(x1,  y1,  z1,  x2,  y2,  z2,  true))
+            local takeaway = 0.95
+
+                    if ((distance < playerNamesDist) and IsEntityVisible(GetPlayerPed(id))) ~= GetPlayerPed( -1 ) then
+                if NetworkIsPlayerTalking(id) then
+                    DrawMarker(25,x2,y2,z2 - takeaway, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 10.3, 0, 132, 8, 105, 0, 0, 2, 0, 0, 0, 0)
+                end
+                    end  
+                end
+            end
+            Citizen.Wait(0)
+        end
+    end
+end)
+
+
+
+
+-- Marker function, don't touch. 
 function Marker(type, x, y, z, voiceS)
      DrawMarker(type, x, y, z - 1.2, 0.0, 0.0, 0.0, 0, 0.0, 0.0, voiceS, voiceS, 1.0, r, g, b, a, false, true, 2, false, false, false, false)
 end
