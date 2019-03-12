@@ -18,13 +18,7 @@ local voice = {default = 5.0, shout = 12.0, whisper = 1.0, current = 0}
 
 --- on server startup
 AddEventHandler('onClientMapStart', function()
-	if voice.current == 0 then
-		NetworkSetTalkerProximity(voice.default)
-	elseif voice.current == 1 then
-		NetworkSetTalkerProximity(voice.shout)
-	elseif voice.current == 2 then
-		NetworkSetTalkerProximity(voice.whisper)
-	end
+	NetworkSetTalkerProximity(voice.default)
 end)
 
 -- main part.
