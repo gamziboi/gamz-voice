@@ -54,12 +54,12 @@ local playerNamesDist = 10
 
 -- circle under people when talking
 Citizen.CreateThread(function()
-    while true do
-        if Config.EnableMarkerWhenTalking then
+    if Config.EnableMarkerWhenTalking then
+        while true do
             for id = 0, 31 do
                 if  ((NetworkIsPlayerActive( id )) and GetPlayerPed( id ) ~= GetPlayerPed( -1 )) then
                     ped = GetPlayerPed( id )
-    
+                    local coords = GetEntityCoords(PlayerPedId())
                     x1, y1, z1 = table.unpack( GetEntityCoords( GetPlayerPed( -1 ), true ) )
                     x2, y2, z2 = table.unpack( GetEntityCoords( GetPlayerPed( id ), true ) )
                     distance = math.floor(GetDistanceBetweenCoords(x1,  y1,  z1,  x2,  y2,  z2,  true))
@@ -68,6 +68,9 @@ Citizen.CreateThread(function()
                     if ((distance < playerNamesDist) and IsEntityVisible(GetPlayerPed(id))) ~= GetPlayerPed( -1 ) then
                 if NetworkIsPlayerTalking(id) then
                     DrawMarker(25,x2,y2,z2 - takeaway, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 10.3, 0, 132, 8, 105, 0, 0, 2, 0, 0, 0, 0)
+                end
+                if NetworkIsPlayerTalking(PlayerId()) then
+                    DrawMarker(25,coords.x,coords.y,coords.z - takeaway, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 10.3, 0, 132, 8, 105, 0, 0, 2, 0, 0, 0, 0)
                 end
                     end  
                 end
